@@ -1,0 +1,16 @@
+SELECT connection_spec.client_geolocation.latitude as lat,connection_spec.client_geolocation.longitude as long
+from
+[measurement-lab:m_lab.2013_08],[measurement-lab:m_lab.2013_09],[measurement-lab:m_lab.2013_10]
+WHERE
+IS_EXPLICITLY_DEFINED(project)
+AND project = 0
+AND IS_EXPLICITLY_DEFINED(connection_spec.data_direction)
+AND connection_spec.data_direction = 1
+AND IS_EXPLICITLY_DEFINED(web100_log_entry.is_last_entry)
+AND web100_log_entry.is_last_entry = True
+and IS_EXPLICITLY_DEFINED(connection_spec.client_geolocation.latitude)
+and IS_EXPLICITLY_DEFINED(connection_spec.client_geolocation.longitude)
+and
+( 
+COND
+)

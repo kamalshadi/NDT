@@ -1,0 +1,31 @@
+select cIP,logTime,elapsed_time,RTT,CWND,CongSignals,octetsOut,loss,acked,sIP
+from
+(
+select test_id,max(lt) as logTime ,max(ip) as cIP,group_concat(string(tt)) as elapsed_time,group_concat(string(rtt1)) as RTT,group_concat(string(cwnd1)) as CWND,
+group_concat(string(cs)) as CongSignals,
+max(retran) as loss,max(bytes) as acked,max(bytes_out) as octetsOut,
+max(server) as sIP
+from
+(
+SELECT web100_log_entry.connection_spec.remote_ip as ip,web100_log_entry.log_time as lt,
+(web100_log_entry.snap.SndLimTimeRwin +
+web100_log_entry.snap.SndLimTimeCwnd +
+web100_log_entry.snap.SndLimTimeSnd) as tt,
+web100_log_entry.snap.SampleRTT as rtt1,
+web100_log_entry.snap.HCThruOctetsAcked as bytes,
+web100_log_entry.snap.CurCwnd as cwnd1,
+web100_log_entry.snap.OctetsRetrans as retran,
+web100_log_entry.connection_spec.local_ip as server,
+web100_log_entry.snap.CongSignals as cs,
+web100_log_entry.snap.HCDataOctetsOut as bytes_out,
+test_id
+from
+TABLE
+WHERE
+IS_EXPLICITLY_DEFINED(project)
+AND project = 0
+AND 
+(COND)
+)
+group by test_id
+)

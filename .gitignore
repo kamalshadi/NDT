@@ -1,0 +1,15 @@
+*test*
+*.pyc
+CSV/
+Dump/
+PIC/
+Temp/
+Tests/
+WalkTrap/
+test
+home/
+*.G
+*.walktrap
+*.A
+*.uos
+*~*
